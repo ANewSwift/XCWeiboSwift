@@ -34,6 +34,7 @@ class WBNetWorkManager: AFHTTPSessionManager {
         // 0> 判断 token 是否为 nil，为 nil 直接返回，程序执行过程中，一般 token 不会为 nil
         guard let token = accessToken else {
             print("没有 token! 需要登录")
+            // FIXME: - 发送通知，登录
             
             completion(nil, false)
             
@@ -69,6 +70,13 @@ class WBNetWorkManager: AFHTTPSessionManager {
         
         // 失败的回调
         let failure = { (task: URLSessionDataTask?, error: Error)->() in
+            
+            // 针对 403 处理用户token 过期
+            if (task?.response as? HTTPURLResponse)?.statusCode == 403 {
+                print("Token 过期了")
+                
+                // FIXME: 发送通知，请求再次登录（本方法不知道被谁调用，谁接收到通知，谁处理）
+            }
             print("网络请求错误 \(error)")
             completion(nil, false)
             
