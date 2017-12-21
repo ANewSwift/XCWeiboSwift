@@ -22,6 +22,8 @@
 		2A019D901FE7E603002D60FA /* UIViewController+CZAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A019D841FE7E603002D60FA /* UIViewController+CZAddition.m */; };
 		2A3264F41FE00C3D0057366B /* WBNavigationC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABEBB3B1FCE9783002D5649 /* WBNavigationC.swift */; };
 		2AB7C8E41FDA900D003BE489 /* UIBarButtonItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C8E31FDA900D003BE489 /* UIBarButtonItem+Extensions.swift */; };
+		2ABB47E61FEA93C700B211AB /* WBNetWorkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB47E51FEA93C700B211AB /* WBNetWorkManager.swift */; };
+		2ABB47E81FEB579D00B211AB /* WBNetWorkManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB47E71FEB579D00B211AB /* WBNetWorkManager+Extension.swift */; };
 		2ABEBB081FCE5641002D5649 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABEBB071FCE5641002D5649 /* AppDelegate.swift */; };
 		2ABEBB331FCE9632002D5649 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABEBB321FCE9632002D5649 /* Bundle+Extensions.swift */; };
 		2ABEBB401FCE9783002D5649 /* WBDiscoverVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABEBB351FCE9783002D5649 /* WBDiscoverVC.swift */; };
@@ -69,6 +71,8 @@
 		2A019D841FE7E603002D60FA /* UIViewController+CZAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CZAddition.m"; sourceTree = "<group>"; };
 		2A019D911FE7E667002D60FA /* Weibo-Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Weibo-Bridge.h"; sourceTree = "<group>"; };
 		2AB7C8E31FDA900D003BE489 /* UIBarButtonItem+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Extensions.swift"; sourceTree = "<group>"; };
+		2ABB47E51FEA93C700B211AB /* WBNetWorkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBNetWorkManager.swift; sourceTree = "<group>"; };
+		2ABB47E71FEB579D00B211AB /* WBNetWorkManager+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WBNetWorkManager+Extension.swift"; sourceTree = "<group>"; };
 		2ABEBB041FCE5641002D5649 /* XCWeiboNew.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCWeiboNew.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2ABEBB071FCE5641002D5649 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2ABEBB131FCE5641002D5649 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -134,6 +138,15 @@
 			path = Additions;
 			sourceTree = "<group>";
 		};
+		2ABB47E41FEA938600B211AB /* NetWork */ = {
+			isa = PBXGroup;
+			children = (
+				2ABB47E51FEA93C700B211AB /* WBNetWorkManager.swift */,
+				2ABB47E71FEB579D00B211AB /* WBNetWorkManager+Extension.swift */,
+			);
+			path = NetWork;
+			sourceTree = "<group>";
+		};
 		2ABEBAFB1FCE5641002D5649 = {
 			isa = PBXGroup;
 			children = (
@@ -185,6 +198,7 @@
 		2ABEBB1B1FCE56DB002D5649 /* Tools(工具) */ = {
 			isa = PBXGroup;
 			children = (
+				2ABB47E41FEA938600B211AB /* NetWork */,
 				2A019D6B1FE7E603002D60FA /* Additions */,
 				2ABEBB311FCE9603002D5649 /* Extensions */,
 			);
@@ -466,7 +480,9 @@
 				2ABEBB461FCE9783002D5649 /* WBProfileVC.swift in Sources */,
 				2A019D891FE7E603002D60FA /* NSString+CZHash.m in Sources */,
 				2AB7C8E41FDA900D003BE489 /* UIBarButtonItem+Extensions.swift in Sources */,
+				2ABB47E61FEA93C700B211AB /* WBNetWorkManager.swift in Sources */,
 				2A019D8C1FE7E603002D60FA /* UIColor+CZAddition.m in Sources */,
+				2ABB47E81FEB579D00B211AB /* WBNetWorkManager+Extension.swift in Sources */,
 				2A019D8F1FE7E603002D60FA /* UIView+CZAddition.m in Sources */,
 				2ABEBB401FCE9783002D5649 /* WBDiscoverVC.swift in Sources */,
 				2ABEBB331FCE9632002D5649 /* Bundle+Extensions.swift in Sources */,

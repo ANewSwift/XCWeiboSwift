@@ -19,7 +19,19 @@ class WBHomeVC: WBBaseVC {
     /// 加载数据
     override func loadData() {
         
-        print("开始加载数据")
+        // 用网络工具 加载微博数据
+//        let urlString = "https://api.weibo.com/2/statuses/home_timeline.json"
+//        let params = ["access_token": "2.00zds_RGdS1b1B522d100d83qpsGqB"]
+        
+//        WBNetWorkManager.shared.request(urlString: urlString, parameters: params as [String : AnyObject]) { (json, isSuccess) in
+//           
+//            print(json ?? "")
+//        }
+        WBNetWorkManager.shared.statusList { (statuesList, isSuccess) in
+            print(statuesList ?? "没数据，你就是傻逼")
+        }
+        
+        print("开始加载数据 \(WBNetWorkManager.shared)")
         
         // 模拟‘延时’加载数据 -> dispatch_after
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.init(uptimeNanoseconds: 2)) {
@@ -33,18 +45,18 @@ class WBHomeVC: WBBaseVC {
                     self.statusList.insert(i.description, at: 0)
                 }
                 
-            }
+        }
             
-            print("刷新表格")
-            
-            // 结束刷新控件
-            self.refreshControl?.endRefreshing()
-            
-            // 恢复上拉刷新标记
-            self.isPullup = false
-            
-            // 刷新表格
-            self.tableView?.reloadData()
+        print("刷新表格")
+        
+        // 结束刷新控件
+        self.refreshControl?.endRefreshing()
+        
+        // 恢复上拉刷新标记
+        self.isPullup = false
+        
+        // 刷新表格
+        self.tableView?.reloadData()
         }
         
     }
