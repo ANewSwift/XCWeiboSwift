@@ -19,32 +19,25 @@ class WBHomeVC: WBBaseVC {
     /// 加载数据
     override func loadData() {
         
-        // 用网络工具 加载微博数据
-//        let urlString = "https://api.weibo.com/2/statuses/home_timeline.json"
-//        let params = ["access_token": "2.00zds_RGdS1b1B522d100d83qpsGqB"]
+    // 用网络工具 加载微博数据
+    WBNetWorkManager.shared.statusList { (statuesDatas, isSuccess) in
+        print(statuesDatas ?? "没数据，你就是傻逼")
+    }
         
-//        WBNetWorkManager.shared.request(urlString: urlString, parameters: params as [String : AnyObject]) { (json, isSuccess) in
-//           
-//            print(json ?? "")
-//        }
-        WBNetWorkManager.shared.statusList { (statuesList, isSuccess) in
-            print(statuesList ?? "没数据，你就是傻逼")
-        }
+    print("开始加载数据 \(WBNetWorkManager.shared)")
+    
+    // 模拟‘延时’加载数据 -> dispatch_after
+    DispatchQueue.main.asyncAfter(deadline: DispatchTime.init(uptimeNanoseconds: 2)) {
         
-        print("开始加载数据 \(WBNetWorkManager.shared)")
-        
-        // 模拟‘延时’加载数据 -> dispatch_after
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.init(uptimeNanoseconds: 2)) {
+        for i in 0..<13 {
+            if self.isPullup {
+                // 将数据追加到数组底部
+                self.statusList.append("上拉-\(i)")
+            } else {
+                // 将数据插入到数组的顶部
+                self.statusList.insert(i.description, at: 0)
+            }
             
-            for i in 0..<13 {
-                if self.isPullup {
-                    // 将数据追加到数组底部
-                    self.statusList.append("上拉-\(i)")
-                } else {
-                    // 将数据插入到数组的顶部
-                    self.statusList.insert(i.description, at: 0)
-                }
-                
         }
             
         print("刷新表格")
@@ -58,9 +51,9 @@ class WBHomeVC: WBBaseVC {
         // 刷新表格
         self.tableView?.reloadData()
         }
-        
-    }
     
+    }
+        
     /// 显示好友
     func showFriends() {
         print(#function)
