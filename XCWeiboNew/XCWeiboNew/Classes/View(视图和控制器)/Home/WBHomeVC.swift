@@ -12,48 +12,34 @@ import UIKit
 private let cellId = "cellId"
 
 class WBHomeVC: WBBaseVC {
-
-    /// 微博数据数组
-    fileprivate lazy var statusList = [String]()
+    
+    /// 列表视图模型(上拉下拉刷新，数据模型)
+    fileprivate lazy var listViewModel = WBStatusListViewModel()
     
     /// 加载数据
     override func loadData() {
         
-    // 用网络工具 加载微博数据
-    WBNetWorkManager.shared.statusList { (statuesDatas, isSuccess) in
-        print(statuesDatas ?? "没数据，你就是傻逼")
-    }
+        print("准备刷新")
+        refreshControl?.beginRefreshing()
         
-    print("开始加载数据 \(WBNetWorkManager.shared)")
-    
-    // 模拟‘延时’加载数据 -> dispatch_after
-    DispatchQueue.main.asyncAfter(deadline: DispatchTime.init(uptimeNanoseconds: 2)) {
-        
-        for i in 0..<13 {
-            if self.isPullup {
-                // 将数据追加到数组底部
-                self.statusList.append("上拉-\(i)")
-            } else {
-                // 将数据插入到数组的顶部
-                self.statusList.insert(i.description, at: 0)
+        // 模拟演示加载数据
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()) {
+            
+            self.listViewModel.loadStatus(isPullup: self.isPullup) { (isSuccess,shouldRefresh) in
+                // 结束刷新控件
+                self.refreshControl?.endRefreshing()
+                // 恢复上拉刷新标记
+                self.isPullup = false
+                
+                // 刷新表格
+                if shouldRefresh {
+                    self.tableView?.reloadData()
+                }
             }
-            
         }
-            
-        print("刷新表格")
         
-        // 结束刷新控件
-        self.refreshControl?.endRefreshing()
-        
-        // 恢复上拉刷新标记
-        self.isPullup = false
-        
-        // 刷新表格
-        self.tableView?.reloadData()
-        }
-    
     }
-        
+    
     /// 显示好友
     func showFriends() {
         print(#function)
@@ -61,26 +47,26 @@ class WBHomeVC: WBBaseVC {
         let vc = WBDemoVC()
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
-        
     }
-
-    
 }
 
 // MARK: - 表格数据源方法， 具体的数据源方法实现， 不需要 super
 extension WBHomeVC {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return statusList.count
+        return listViewModel.statusList.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         // 1、取cell
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for:indexPath)
+        
         // 2、设置内容
-        cell.textLabel?.text = statusList[indexPath.row]
+        cell.textLabel?.text = listViewModel.statusList[indexPath.row].text
+        
         // 3、返回cell
-        return cell;
+        return cell
     }
 }
 
@@ -98,5 +84,25 @@ extension WBHomeVC {
         
         // 注册原型cell
         tableView?.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        
+        setupNavTitle()
+    }
+    
+    /// 设置导航栏标题
+    private func setupNavTitle(){
+        let button = UIButton.cz_textButton("小草", fontSize: 16, normalColor: UIColor.darkGray, highlightedColor: UIColor.black)
+        
+        button?.setImage(UIImage.init(named: "navigationbar_arrow_down"), for: .normal)
+        button?.setImage(UIImage.init(named: "navigationbar_arrow_up"), for: .selected)
+        
+        navItem.titleView = button
+        
+        button?.addTarget(self, action: #selector(clickTitleButton(btn:)), for: .touchUpInside)
+    }
+    
+    @objc func clickTitleButton(btn: UIButton) {
+        
+        // 设置选中状态
+        btn.isSelected = !btn.isSelected
     }
 }

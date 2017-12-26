@@ -22,27 +22,52 @@ import Foundation
  2. 下拉／上拉刷新数据处理
  */
 
+private var pullupErrorTimes = 0
+private let maxPullupTryTimes = 3
+
+/** 事务逻辑层（处理上拉下拉刷新数据的获取，并回调传给控制器）*/
 class WBStatusListViewModel {
     
     /// 微博模型数组懒加载
     lazy var statusList = [WBStatus]()
     
-    func loadStatus(completion: @escaping (_ isSuccess: Bool)->()){
+    func loadStatus(isPullup: Bool,completion: @escaping (_ isSuccess: Bool,_ shouldRefresh: Bool)->()){
         
-        WBNetWorkManager.shared.statusList { (list, isSuccess) in
+        // 上拉刷新限制，错误超过三次，则不刷新
+        if isPullup && pullupErrorTimes > maxPullupTryTimes {
+            completion(true, false)
+            return
+        }
+        
+        let since_id = isPullup ? 0 : self.statusList.first?.id ?? 0
+        let max_id = !isPullup ? 0 :self.statusList.last?.id ?? 0
+        
+        /// 调用网络管理工具，获取数据
+        WBNetWorkManager.shared.statusList(since_id: since_id, max_id: max_id) { (list, isSuccess) in
             
             // 1、字典转模型
             guard let array = NSArray.yy_modelArray(with: WBStatus.self, json: list ?? []) as? [WBStatus] else {
                 
-                completion(isSuccess)
+                completion(isSuccess, false)
                 return
             }
             
             // 2、拼接数据
-            self.statusList += array
+            if isPullup {
+                self.statusList += array
+            } else {
+                self.statusList = array + self.statusList
+            }
             
-            // 3、完成回调
-            completion(isSuccess)
+            print("array的count\(array.count)")
+            // 3、判断上拉刷新的数据量
+            if isPullup && array.count == 0 {
+                pullupErrorTimes += 1
+                completion(isSuccess, false)
+            } else {
+                completion(isSuccess, true)
+            }
+
         }
     }
 }

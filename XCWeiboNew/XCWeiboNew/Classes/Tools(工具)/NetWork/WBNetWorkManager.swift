@@ -1,4 +1,4 @@
-//
+ //
 //  WBNetWorkManager.swift
 //  XCWeiboNew
 //
@@ -20,21 +20,37 @@ enum WBHTTPMethod {
 /// 网络管理工具
 class WBNetWorkManager: AFHTTPSessionManager {
     
-    /// 静态区/ 常量/ 闭包
+    /// 静态区/ 常量/ 闭包 
     /// 在第一次访问时，执行闭包，把结果保存在 shared 常量中
-    static let shared = WBNetWorkManager()
+    static let shared: WBNetWorkManager = {
+        
+        // 实例化对象
+        let instance = WBNetWorkManager()
+        
+        // 设置响应反序列化支持的数据类型
+        instance.responseSerializer.acceptableContentTypes?.insert("text/plain")
+        
+        // 返回对象
+        return instance
+        
+    }()
     
-    /// 访问令牌，所有网络请求，都基于此令牌（登录除外）
-    var accessToken: String? = "2.00zds_RGdS1b1B522d100d83qpsGqB"
+    var userAccount = WBUserAccount()
     
-    /// 专门负责拼接 token 的网络请求方法
+    /// 用户登录标记[计算型属性]
+    var userLogon: Bool {
+        return userAccount.access_token != nil
+    }
+    
+    /** 专门负责拼接 token的网络请求方法 */
     func tokenRequest(method: WBHTTPMethod = .GET,urlString: String,parameters: [String: AnyObject]?,completion:@escaping (_ json: AnyObject?,_ isSuccess: Bool)->()){
         
         // 处理 token 字典
         // 0> 判断 token 是否为 nil，为 nil 直接返回，程序执行过程中，一般 token 不会为 nil
-        guard let token = accessToken else {
+        guard let token = userAccount.access_token else {
             print("没有 token! 需要登录")
-            // FIXME: - 发送通知，登录
+            // 发送通知，登录
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: WBUserShouldLoginNotification), object: nil)
             
             completion(nil, false)
             
@@ -45,10 +61,11 @@ class WBNetWorkManager: AFHTTPSessionManager {
         if parameters == nil {
             // 实例化字典
             parameters = [String: AnyObject]()
-            // 设置参数字典，代码在此处字典一定有值
-            parameters!["access_token"] = token as AnyObject
         }
         
+        // 2>设置参数字典，代码在此处字典一定有值
+        parameters!["access_token"] = token as AnyObject
+       
         // 调用 request 发起真正的网络请求方法
         request(method: method, urlString: urlString, parameters: parameters, completion: completion)
     }

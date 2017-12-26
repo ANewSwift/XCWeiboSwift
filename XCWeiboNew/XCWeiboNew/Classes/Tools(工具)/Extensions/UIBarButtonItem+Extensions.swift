@@ -9,9 +9,7 @@
 import UIKit
 
 extension UIBarButtonItem{
-    
-    
-    
+    /** 自定义，isBack:判断是否是第一个控制器，添加返回按钮 */
     convenience init(title: String, fontSize: CGFloat = 16, target: AnyObject?, action: Selector, isBack: Bool = false) {
         let btn = UIButton.createBtn(title: title, fontSize: fontSize, normalColor: UIColor.darkGray, highlightedColor: UIColor.orange)
         

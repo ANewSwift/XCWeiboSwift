@@ -21,6 +21,9 @@
 		2A019D8F1FE7E603002D60FA /* UIView+CZAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A019D821FE7E603002D60FA /* UIView+CZAddition.m */; };
 		2A019D901FE7E603002D60FA /* UIViewController+CZAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A019D841FE7E603002D60FA /* UIViewController+CZAddition.m */; };
 		2A3264F41FE00C3D0057366B /* WBNavigationC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABEBB3B1FCE9783002D5649 /* WBNavigationC.swift */; };
+		2AA093D51FEF804700D3075A /* WeiBoCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA093D41FEF804700D3075A /* WeiBoCommon.swift */; };
+		2AA093D81FEF870700D3075A /* WBOAuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA093D71FEF870700D3075A /* WBOAuthVC.swift */; };
+		2AA093DB1FF0A55B00D3075A /* WBUserAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA093DA1FF0A55B00D3075A /* WBUserAccount.swift */; };
 		2AB7C8E41FDA900D003BE489 /* UIBarButtonItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C8E31FDA900D003BE489 /* UIBarButtonItem+Extensions.swift */; };
 		2ABB47E61FEA93C700B211AB /* WBNetWorkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB47E51FEA93C700B211AB /* WBNetWorkManager.swift */; };
 		2ABB47E81FEB579D00B211AB /* WBNetWorkManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB47E71FEB579D00B211AB /* WBNetWorkManager+Extension.swift */; };
@@ -72,6 +75,9 @@
 		2A019D831FE7E603002D60FA /* UIViewController+CZAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+CZAddition.h"; sourceTree = "<group>"; };
 		2A019D841FE7E603002D60FA /* UIViewController+CZAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+CZAddition.m"; sourceTree = "<group>"; };
 		2A019D911FE7E667002D60FA /* Weibo-Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Weibo-Bridge.h"; sourceTree = "<group>"; };
+		2AA093D41FEF804700D3075A /* WeiBoCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeiBoCommon.swift; sourceTree = "<group>"; };
+		2AA093D71FEF870700D3075A /* WBOAuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBOAuthVC.swift; sourceTree = "<group>"; };
+		2AA093DA1FF0A55B00D3075A /* WBUserAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBUserAccount.swift; sourceTree = "<group>"; };
 		2AB7C8E31FDA900D003BE489 /* UIBarButtonItem+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Extensions.swift"; sourceTree = "<group>"; };
 		2ABB47E51FEA93C700B211AB /* WBNetWorkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBNetWorkManager.swift; sourceTree = "<group>"; };
 		2ABB47E71FEB579D00B211AB /* WBNetWorkManager+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WBNetWorkManager+Extension.swift"; sourceTree = "<group>"; };
@@ -142,9 +148,26 @@
 			path = Additions;
 			sourceTree = "<group>";
 		};
+		2AA093D61FEF86D000D3075A /* OAuth */ = {
+			isa = PBXGroup;
+			children = (
+				2AA093D71FEF870700D3075A /* WBOAuthVC.swift */,
+			);
+			path = OAuth;
+			sourceTree = "<group>";
+		};
+		2AA093D91FF0A53300D3075A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2AA093DA1FF0A55B00D3075A /* WBUserAccount.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		2ABB47E41FEA938600B211AB /* NetWork */ = {
 			isa = PBXGroup;
 			children = (
+				2AA093D91FF0A53300D3075A /* Model */,
 				2ABB47E51FEA93C700B211AB /* WBNetWorkManager.swift */,
 				2ABB47E71FEB579D00B211AB /* WBNetWorkManager+Extension.swift */,
 			);
@@ -206,6 +229,7 @@
 				2ABB47E41FEA938600B211AB /* NetWork */,
 				2A019D6B1FE7E603002D60FA /* Additions */,
 				2ABEBB311FCE9603002D5649 /* Extensions */,
+				2AA093D41FEF804700D3075A /* WeiBoCommon.swift */,
 			);
 			path = "Tools(工具)";
 			sourceTree = "<group>";
@@ -261,9 +285,10 @@
 		2ABEBB381FCE9783002D5649 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				2ABEBB4D1FCFA328002D5649 /* 测试 */,
+				2AA093D61FEF86D000D3075A /* OAuth */,
 				2AC38C781FE661A500E7960B /* 主控制器 */,
 				2AC38C791FE7986500E7960B /* VisitorView */,
+				2ABEBB4D1FCFA328002D5649 /* 测试 */,
 				2ABEBB391FCE9783002D5649 /* WBBaseVC.swift */,
 			);
 			path = Main;
@@ -478,6 +503,7 @@
 				2A019D871FE7E603002D60FA /* NSObject+CZRuntime.m in Sources */,
 				2A019D851FE7E603002D60FA /* NSArray+Log.m in Sources */,
 				2A019D901FE7E603002D60FA /* UIViewController+CZAddition.m in Sources */,
+				2AA093D51FEF804700D3075A /* WeiBoCommon.swift in Sources */,
 				2A019D8D1FE7E603002D60FA /* UILabel+CZAddition.m in Sources */,
 				2A019D8E1FE7E603002D60FA /* UIScreen+CZAddition.m in Sources */,
 				2A3264F41FE00C3D0057366B /* WBNavigationC.swift in Sources */,
@@ -487,6 +513,7 @@
 				2ABEBB451FCE9783002D5649 /* WBMessageVC.swift in Sources */,
 				2ABEBB461FCE9783002D5649 /* WBProfileVC.swift in Sources */,
 				2A019D891FE7E603002D60FA /* NSString+CZHash.m in Sources */,
+				2AA093DB1FF0A55B00D3075A /* WBUserAccount.swift in Sources */,
 				2AB7C8E41FDA900D003BE489 /* UIBarButtonItem+Extensions.swift in Sources */,
 				2ABB47E61FEA93C700B211AB /* WBNetWorkManager.swift in Sources */,
 				2A019D8C1FE7E603002D60FA /* UIColor+CZAddition.m in Sources */,
@@ -498,6 +525,7 @@
 				2ABEBB431FCE9783002D5649 /* WBMainTabBarC.swift in Sources */,
 				2ABEBB4C1FCED32B002D5649 /* Button+Extension.swift in Sources */,
 				2A019D861FE7E603002D60FA /* NSAttributedString+CZAdditon.m in Sources */,
+				2AA093D81FEF870700D3075A /* WBOAuthVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,6 +632,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = XCWeiboNew/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SJZ.XCWeiboNew;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -619,6 +648,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = XCWeiboNew/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SJZ.XCWeiboNew;
 				PRODUCT_NAME = "$(TARGET_NAME)";

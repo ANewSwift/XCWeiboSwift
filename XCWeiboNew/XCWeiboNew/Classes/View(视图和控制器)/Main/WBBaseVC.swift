@@ -14,9 +14,6 @@ class WBBaseVC: UIViewController {
     /// 访客视图信息字典
     var visitorInfoDictionary: [String: String]?
     
-    /// 用户登录标识
-    var userLogon = true
-    
     /// 表格视图 - 如果用户没有登录，就不创建
     var tableView : UITableView?
     
@@ -28,6 +25,7 @@ class WBBaseVC: UIViewController {
     
     /// 自定义导航条
     lazy var navigationBar = UINavigationBar.init(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 64))
+//    var navigationBar: UINavigationBar?
     /// 自定义导航条目
     lazy var navItem = UINavigationItem()
     
@@ -35,8 +33,27 @@ class WBBaseVC: UIViewController {
         super.viewDidLoad()
         
         setupUI()
-        loadData()
-       
+        // 用户登录方可加载数据
+        WBNetWorkManager.shared.userLogon ? loadData() : ()
+        
+        // 注册用户登录成功的通知
+        NotificationCenter.default.addObserver(self, selector: #selector(loginSuccess), name: NSNotification.Name(rawValue: WBUserLoginSuccessNotification), object: nil)
+
+        if #available(iOS 11.0, *) {
+            tableView?.contentInsetAdjustmentBehavior = .never
+        } else {
+            automaticallyAdjustsScrollViewInsets = false;
+        }
+//        UIApplication.shared.statusBarStyle
+//        print("状态栏的Frmae:\(UIApplication.shared.statusBarFrame)")
+//        print("导航栏的Frame:\(navigationBar.frame)")
+//        print("tableView的Fram\(view.bounds)")
+
+    }
+    
+    deinit {
+        // 注销通知
+        NotificationCenter.default.removeObserver(self)
     }
     
     ///重写 title 的 didSet
@@ -57,9 +74,25 @@ class WBBaseVC: UIViewController {
 
 // MARK: - 设置登录，注册按钮的监听方法
 extension WBBaseVC {
+    
+    @objc fileprivate func loginSuccess(n:NotificationCenter){
+        print("登录成功 \(n)")
+        // 更新 UI => 将访客视图替换为表格视图
+        // 需要重新设置 view
+        // 在访问 view 的 getter 时，如果 view == nil 会调用 loadView -> viewDidLoad
+        view = nil
+        
+        navItem.leftBarButtonItem = nil
+        navItem.rightBarButtonItem = nil
+        
+        // 注销通知 -> 重新执行 viewDidLoad 会再次注册！避免通知被重复注册
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     /** 登录的监听方法 */
     @objc fileprivate func login() {
-        print("登录")
+        // 发送登录通知
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: WBUserShouldLoginNotification), object: nil)
     }
     
     /** 登录的注册方法 */
@@ -77,14 +110,16 @@ extension WBBaseVC {
     fileprivate func setupUI(){
         
         // 取消自动缩进，隐藏导航栏会自动缩进 20 个点
-        automaticallyAdjustsScrollViewInsets = false
-        
+
+       //automaticallyAdjustsScrollViewInsets = false
+       
+
         // 自定义navigationBar
         setupNavigationBar()
     
         // FIXME: - 三目判断,切换访客视图 与 用户视图
         // 根据userLogon状态判断
-        userLogon ? setupTableView() : setupVisitorView()
+        WBNetWorkManager.shared.userLogon ? setupTableView() : setupVisitorView()
     }
     
     // 设置表格视图
@@ -101,6 +136,9 @@ extension WBBaseVC {
         
         // 设置tableView内容（顶部与底部避开导航条）缩进
         tableView?.contentInset = UIEdgeInsetsMake(navigationBar.bounds.height, 0, tabBarController?.tabBar.bounds.height ?? 49, 0)
+        
+        // 设置指示器偏移
+        tableView?.scrollIndicatorInsets = tableView!.contentInset
         
         // 设置刷新控件
         // 1> 实例化控件
@@ -135,6 +173,7 @@ extension WBBaseVC {
     
     // 设置导航条
     private func setupNavigationBar() {
+        
         // 添加导航条
         view.addSubview(navigationBar)
         

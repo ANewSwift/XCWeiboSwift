@@ -7,16 +7,36 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class WBMainTabBarC: UITabBarController {
-
+    
+    var timer : Timer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // 利用数组定义所有子控制器
         setupChildControllers()
+        
         // 创建一个ContactAdd类型的按钮
         setupComposeButton()
+
+        // 建立首页及App未读数图标
+        setupTimer()
+        
+        // 设置代理
+        delegate = self
+        
+        // 注册通知
+        NotificationCenter.default.addObserver(self, selector: #selector(userLogin), name: NSNotification.Name(rawValue: WBUserShouldLoginNotification), object: nil)
+    }
+    
+    deinit {
+        // 销毁时钟
+        timer?.invalidate()
+        // 注销通知
+        NotificationCenter.default.removeObserver(self)
     }
     
     /** 
@@ -34,8 +54,32 @@ class WBMainTabBarC: UITabBarController {
         }
     }
     
+    // MARK: - 监听方法
+    /** 监听用户登录的通知 */
+    @objc private func userLogin(n:Notification){
+        print("用户登录通知\(n)")
+        
+        var when = DispatchTime.now()
+        
+        // 判断n.objectb 是否有值，如果有值，提示用户重新登录
+        if n.object != nil{
+            
+            SVProgressHUD.setDefaultMaskType(.gradient)
+            
+            SVProgressHUD.showInfo(withStatus: "用户登录已经超时，需要重新登录")
+            when = DispatchTime.now() + 2
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            SVProgressHUD.setDefaultMaskType(.clear)
+            
+            let nav = UINavigationController.init(rootViewController: WBOAuthVC())
+            self.present(nav, animated: true, completion: nil)
+        }
+        
+    }
     
-    //MARK: - 监听方法
+    
     /// 撰写微博
     // FIXME: 没有实现
     @objc fileprivate func composeStatus(){
@@ -61,16 +105,81 @@ class WBMainTabBarC: UITabBarController {
    
 }
 
+// MARK: - UITabBarControllerDelegate代理方法
+extension WBMainTabBarC: UITabBarControllerDelegate {
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool{
+        
+//        print("将要切换到 \(viewController)")
+        // 1>获取控制器在数组中的索引
+        let idx = childViewControllers.index(of: viewController)
+        // 2>判断当前索引是首页，将要切换的控制器也是首页，则是重复点击
+        if selectedIndex == 0 && idx == selectedIndex {
+            print("点击首页")
+            
+            // 3>让表格滚到到顶部
+            // a) 获取到控制器
+            let nav = childViewControllers[0] as! UINavigationController
+            let vc = nav.childViewControllers[0] as! WBHomeVC
+            
+            // b) 滚动到顶部
+            vc.tableView?.setContentOffset(CGPoint.init(x: 0, y: -64), animated: true)
+            // 4> 刷新数据 - 增加延迟，是保证表格先滚动到顶部再刷新
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                vc.loadData()
+            }
+            
+        }
+        
+        // 判断目标控制器是否是 UIViewController,否则不切换
+        return !viewController.isMember(of: UIViewController.self)
+    }
+    
+    
+}
+
+// MARK: - 时钟相关方法
+extension WBMainTabBarC {
+    
+    /// 定义时钟
+    fileprivate func setupTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+    }
+    
+    /// 时钟触发方法
+    @objc private func updateTimer() {
+        
+        if !WBNetWorkManager.shared.userLogon {
+            return
+        }
+        
+        WBNetWorkManager.shared.unReadcount { (count) in
+            print("检测到\(count)条数据")
+           
+        // 设置首页TabBar,未读微博数
+            self.tabBar.items?[0].badgeValue = count > 0 ? "\(count)" : nil
+        
+        // 设置应用图标的未读数
+            if count > 0 {
+                UIApplication.shared.applicationIconBadgeNumber = count
+            }
+            
+        }
+    }
+}
+
+// MARK: - 设置界面
 extension WBMainTabBarC{
     
-    ///设置撰写按钮
+    /** 设置撰写按钮 */
     fileprivate func setupComposeButton(){
         
         tabBar.addSubview(composeButton)
         
         //计算按钮的宽度
         let count = CGFloat(childViewControllers.count)
-        let w = tabBar.bounds.width / count - 1
+        let w = tabBar.bounds.width / count + 5
         
         composeButton.frame = tabBar.bounds.insetBy(dx: 2 * w, dy: 0)
         
@@ -80,7 +189,7 @@ extension WBMainTabBarC{
         
     }
     
-    /// 设置所有子控制器
+    /** 设置所有子控制器 */
      fileprivate func setupChildControllers(){
         
         // 0、获取沙盒 json 路径
@@ -114,7 +223,7 @@ extension WBMainTabBarC{
 
     } 
     
-    ///使用字典创建一个子控制器
+    /** 使用字典创建一个子控制器 */
     private func controller(dict: [String : AnyObject]) -> UIViewController{
         
         //1、取得字典内容
