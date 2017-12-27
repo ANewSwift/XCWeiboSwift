@@ -236,7 +236,7 @@ extension WBMainTabBarC{
         
         //计算按钮的宽度
         let count = CGFloat(childViewControllers.count)
-        let w = tabBar.bounds.width / count + 5
+        let w = tabBar.bounds.width / count
         
         composeButton.frame = tabBar.bounds.insetBy(dx: 2 * w, dy: 0)
         

@@ -73,7 +73,7 @@ extension WBHomeVC {
 // MARK: - 设置界面
 extension WBHomeVC {
     
-    ///重写父类的方法
+    ///重写父类的方法,建立TabelView
     override func setupTableView() {
     
         super.setupTableView()
