@@ -24,6 +24,11 @@
 		2AA093D51FEF804700D3075A /* WeiBoCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA093D41FEF804700D3075A /* WeiBoCommon.swift */; };
 		2AA093D81FEF870700D3075A /* WBOAuthVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA093D71FEF870700D3075A /* WBOAuthVC.swift */; };
 		2AA093DB1FF0A55B00D3075A /* WBUserAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA093DA1FF0A55B00D3075A /* WBUserAccount.swift */; };
+		2AA456091FF1C90600410679 /* WBTitleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA456081FF1C90600410679 /* WBTitleButton.swift */; };
+		2AA4560C1FF1D99800410679 /* WBWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4560B1FF1D99800410679 /* WBWelcomeView.swift */; };
+		2AA4560E1FF1D9E800410679 /* WBNewFeatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA4560D1FF1D9E800410679 /* WBNewFeatureView.swift */; };
+		2AA456101FF1E84000410679 /* WBWelcomeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AA4560F1FF1E84000410679 /* WBWelcomeView.xib */; };
+		2AA456121FF2247E00410679 /* WBNewFeatureView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2AA456111FF2247E00410679 /* WBNewFeatureView.xib */; };
 		2AB7C8E41FDA900D003BE489 /* UIBarButtonItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB7C8E31FDA900D003BE489 /* UIBarButtonItem+Extensions.swift */; };
 		2ABB47E61FEA93C700B211AB /* WBNetWorkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB47E51FEA93C700B211AB /* WBNetWorkManager.swift */; };
 		2ABB47E81FEB579D00B211AB /* WBNetWorkManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ABB47E71FEB579D00B211AB /* WBNetWorkManager+Extension.swift */; };
@@ -78,6 +83,11 @@
 		2AA093D41FEF804700D3075A /* WeiBoCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeiBoCommon.swift; sourceTree = "<group>"; };
 		2AA093D71FEF870700D3075A /* WBOAuthVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBOAuthVC.swift; sourceTree = "<group>"; };
 		2AA093DA1FF0A55B00D3075A /* WBUserAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBUserAccount.swift; sourceTree = "<group>"; };
+		2AA456081FF1C90600410679 /* WBTitleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBTitleButton.swift; sourceTree = "<group>"; };
+		2AA4560B1FF1D99800410679 /* WBWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBWelcomeView.swift; sourceTree = "<group>"; };
+		2AA4560D1FF1D9E800410679 /* WBNewFeatureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBNewFeatureView.swift; sourceTree = "<group>"; };
+		2AA4560F1FF1E84000410679 /* WBWelcomeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WBWelcomeView.xib; sourceTree = "<group>"; };
+		2AA456111FF2247E00410679 /* WBNewFeatureView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WBNewFeatureView.xib; sourceTree = "<group>"; };
 		2AB7C8E31FDA900D003BE489 /* UIBarButtonItem+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Extensions.swift"; sourceTree = "<group>"; };
 		2ABB47E51FEA93C700B211AB /* WBNetWorkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBNetWorkManager.swift; sourceTree = "<group>"; };
 		2ABB47E71FEB579D00B211AB /* WBNetWorkManager+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WBNetWorkManager+Extension.swift"; sourceTree = "<group>"; };
@@ -162,6 +172,25 @@
 				2AA093DA1FF0A55B00D3075A /* WBUserAccount.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		2AA456071FF1C8DB00410679 /* TitleButton */ = {
+			isa = PBXGroup;
+			children = (
+				2AA456081FF1C90600410679 /* WBTitleButton.swift */,
+			);
+			path = TitleButton;
+			sourceTree = "<group>";
+		};
+		2AA4560A1FF1D97500410679 /* NewFeature */ = {
+			isa = PBXGroup;
+			children = (
+				2AA4560B1FF1D99800410679 /* WBWelcomeView.swift */,
+				2AA4560D1FF1D9E800410679 /* WBNewFeatureView.swift */,
+				2AA4560F1FF1E84000410679 /* WBWelcomeView.xib */,
+				2AA456111FF2247E00410679 /* WBNewFeatureView.xib */,
+			);
+			path = NewFeature;
 			sourceTree = "<group>";
 		};
 		2ABB47E41FEA938600B211AB /* NetWork */ = {
@@ -277,6 +306,7 @@
 		2ABEBB361FCE9783002D5649 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				2AA456071FF1C8DB00410679 /* TitleButton */,
 				2ABEBB371FCE9783002D5649 /* WBHomeVC.swift */,
 			);
 			path = Home;
@@ -285,6 +315,7 @@
 		2ABEBB381FCE9783002D5649 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				2AA4560A1FF1D97500410679 /* NewFeature */,
 				2AA093D61FEF86D000D3075A /* OAuth */,
 				2AC38C781FE661A500E7960B /* 主控制器 */,
 				2AC38C791FE7986500E7960B /* VisitorView */,
@@ -418,6 +449,8 @@
 			files = (
 				2AE93EDC1FE910E7009AAB9D /* demo.json in Resources */,
 				2ABEBB481FCE9DED002D5649 /* Assets.xcassets in Resources */,
+				2AA456101FF1E84000410679 /* WBWelcomeView.xib in Resources */,
+				2AA456121FF2247E00410679 /* WBNewFeatureView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +531,7 @@
 				2ABEBB411FCE9783002D5649 /* WBHomeVC.swift in Sources */,
 				2ABB47EC1FEBADB800B211AB /* WBStatusListViewModel.swift in Sources */,
 				2A019D8B1FE7E603002D60FA /* UIButton+CZAddition.m in Sources */,
+				2AA4560C1FF1D99800410679 /* WBWelcomeView.swift in Sources */,
 				2A019D8A1FE7E603002D60FA /* NSString+CZPath.m in Sources */,
 				2ABEBB081FCE5641002D5649 /* AppDelegate.swift in Sources */,
 				2A019D871FE7E603002D60FA /* NSObject+CZRuntime.m in Sources */,
@@ -518,6 +552,8 @@
 				2ABB47E61FEA93C700B211AB /* WBNetWorkManager.swift in Sources */,
 				2A019D8C1FE7E603002D60FA /* UIColor+CZAddition.m in Sources */,
 				2ABB47E81FEB579D00B211AB /* WBNetWorkManager+Extension.swift in Sources */,
+				2AA4560E1FF1D9E800410679 /* WBNewFeatureView.swift in Sources */,
+				2AA456091FF1C90600410679 /* WBTitleButton.swift in Sources */,
 				2A019D8F1FE7E603002D60FA /* UIView+CZAddition.m in Sources */,
 				2ABEBB401FCE9783002D5649 /* WBDiscoverVC.swift in Sources */,
 				2ABEBB331FCE9632002D5649 /* Bundle+Extensions.swift in Sources */,

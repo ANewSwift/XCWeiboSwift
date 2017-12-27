@@ -90,14 +90,16 @@ extension WBHomeVC {
     
     /// 设置导航栏标题
     private func setupNavTitle(){
-        let button = UIButton.cz_textButton("小草", fontSize: 16, normalColor: UIColor.darkGray, highlightedColor: UIColor.black)
         
-        button?.setImage(UIImage.init(named: "navigationbar_arrow_down"), for: .normal)
-        button?.setImage(UIImage.init(named: "navigationbar_arrow_up"), for: .selected)
+        let title = WBNetWorkManager.shared.userAccount.screen_name
+        
+        
+        /// 如果title为空则默认title为“首页”，且没有上下箭头
+        let button = WBTitleButton.init(title: title)
         
         navItem.titleView = button
         
-        button?.addTarget(self, action: #selector(clickTitleButton(btn:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(clickTitleButton(btn:)), for: .touchUpInside)
     }
     
     @objc func clickTitleButton(btn: UIButton) {

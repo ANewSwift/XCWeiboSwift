@@ -25,6 +25,9 @@ class WBMainTabBarC: UITabBarController {
         // 建立首页及App未读数图标
         setupTimer()
         
+        // 设置新特性视图
+        setupNewfeatureViews()
+        
         // 设置代理
         delegate = self
         
@@ -105,6 +108,56 @@ class WBMainTabBarC: UITabBarController {
    
 }
 
+// MARK: - 新特性视图处理
+extension WBMainTabBarC {
+    
+    fileprivate func setupNewfeatureViews(){
+        
+        // 0、判断是否登录
+        if !WBNetWorkManager.shared.userLogon {
+            return
+        }
+        
+        // 1、如果更新，显示新特性，否则显示欢迎界面
+        let v = isNewVersion ? WBNewFeatureView.newFeatureView() : WBWelcomeView.welcomeView()
+        
+        // 2、把视图添加到View上
+        v.frame = view.bounds
+        view.addSubview(v)
+        
+    }
+    
+    /// extesions 中可以有计算型属性，不会占用存储空间
+    /// 构造函数：给属性分配空间
+    /**
+     版本号
+     - 在 AppStore 每次升级应用程序，版本号都需要增加，不能递减
+     
+     - 组成 主版本号.次版本号.修订版本号
+     - 主版本号：意味着大的修改，使用者也需要做大的适应
+     - 次版本号：意味着小的修改，某些函数和方法的使用或者参数有变化
+     - 修订版本号：框架／程序内部 bug 的修订，不会对使用者造成任何的影响
+     */
+    private var isNewVersion: Bool {
+        
+        // 1.取当前版本号 1.0.2
+        let currentVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+        print("当前版本号：\(currentVersion)")
+        
+        // 2、取保存在 `Document(iTunes备份)[最理想保存在用户偏好]` 目录中的之前的版本号“1.0.1”
+        let path: String = ("version" as NSString).cz_appendDocumentDir()
+        let sandboxVersion = (try? String.init(contentsOfFile: path)) ?? ""
+        print("沙盒版本:" + sandboxVersion)
+        
+        // 3、将当前版本号保存在沙盒
+        try? currentVersion.write(toFile: path, atomically: true, encoding: .utf8)
+        
+        // 4、返回两个版本号'是否一致'，not new
+        return currentVersion != sandboxVersion
+//        return currentVersion == sandboxVersion
+    }
+}
+
 // MARK: - UITabBarControllerDelegate代理方法
 extension WBMainTabBarC: UITabBarControllerDelegate {
     
@@ -130,6 +183,10 @@ extension WBMainTabBarC: UITabBarControllerDelegate {
                 vc.loadData()
             }
             
+            // 5> 清除 tabItem 的 badgeNumber
+            vc.tabBarItem.badgeValue = nil
+            UIApplication.shared.applicationIconBadgeNumber = 0
+            
         }
         
         // 判断目标控制器是否是 UIViewController,否则不切换
@@ -144,7 +201,7 @@ extension WBMainTabBarC {
     
     /// 定义时钟
     fileprivate func setupTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 60, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
     /// 时钟触发方法
