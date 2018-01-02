@@ -18,7 +18,7 @@ class WBBaseVC: UIViewController {
     var tableView : UITableView?
     
     /// 刷新控件
-    var refreshControl: UIRefreshControl?
+    var refreshControl: XCRefreshControl?
     
     /// 上拉刷新标识
     var isPullup = false
@@ -142,7 +142,7 @@ extension WBBaseVC {
         
         // 设置刷新控件
         // 1> 实例化控件
-        refreshControl = UIRefreshControl()
+        refreshControl =  XCRefreshControl()
         
         // 2> 添加到表格视图
         tableView?.addSubview(refreshControl!)

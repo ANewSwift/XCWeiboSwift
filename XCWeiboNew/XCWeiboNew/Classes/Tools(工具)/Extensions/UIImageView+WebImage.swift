@@ -23,11 +23,11 @@ extension UIImageView {
             }
         
         // 可选项只是用在 Swift，OC 有的时候用 ! 同样可以传入 nil
-        sd_setImage(with: url, placeholderImage: placeholderImage, options: [], progress: nil) { (image, _, _, _) in
+        sd_setImage(with: url, placeholderImage: placeholderImage, options: [], progress: nil) { [weak self] (image, _, _, _) in
             // 完成回调 - 判断是否是头像
             
             if isAvatar {
-                self.image = image?.cz_avatarImage(size: self.bounds.size)
+                self?.image = image?.cz_avatarImage(size: self?.bounds.size)
             }
         }
     }

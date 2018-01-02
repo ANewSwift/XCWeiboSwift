@@ -8,8 +8,10 @@
 
 import UIKit
 
-// 定义全局常量，尽量使用 private 修饰，否则到处可以访问
-private let cellId = "cellId"
+/// 原创微博可重用 cell id
+private let originalCellId = "originalCellId"
+/// 被转发微博可重用 cell id
+private let retweetedCellId = "retweetedCellId"
 
 class WBHomeVC: WBBaseVC {
     
@@ -59,14 +61,24 @@ extension WBHomeVC {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let vm = listViewModel.statusList[indexPath.row]
+        
+        let cellId = (vm.status.retweeted_status != nil) ? retweetedCellId : originalCellId
+        
         // 1、取cell
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for:indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for:indexPath) as! WBStatusCell
         
         // 2、设置内容
-        cell.textLabel?.text = listViewModel.statusList[indexPath.row].text
-        
+        cell.viewModel = vm
         // 3、返回cell
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        // 1、根据indexPath 获取视图模型
+        let vm = listViewModel.statusList[indexPath.row]
+        // 2、返回计算好的行高
+        return vm.rowHeight
     }
 }
 
@@ -81,9 +93,18 @@ extension WBHomeVC {
         //设置导航栏的按钮
         // 这个init，方法是extension的，目的：加 带返回图标的按钮
         navItem.leftBarButtonItem = UIBarButtonItem.init(title: "好友", target: self, action: #selector(showFriends))
-        
         // 注册原型cell
-        tableView?.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView?.register(UINib.init(nibName: "WBStatusRetweetedCell", bundle: nil), forCellReuseIdentifier: retweetedCellId)
+        tableView?.register(UINib.init(nibName: "WBStatusNormalCell", bundle: nil), forCellReuseIdentifier: originalCellId)
+        
+//        // 设置行高
+//        // 取消自动行高
+//         tableView?.rowHeight = UITableViewAutomaticDimension
+        // 预估行高
+        tableView?.estimatedRowHeight = 300
+
+        // 取消分割线
+        tableView?.separatorStyle = .none
         
         setupNavTitle()
     }

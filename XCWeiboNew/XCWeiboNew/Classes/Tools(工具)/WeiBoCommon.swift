@@ -24,4 +24,13 @@ let WBUserShouldLoginNotification = "WBUserShouldLoginNotification"
 /// 用户登录成功通知
 let WBUserLoginSuccessNotification = "WBUserLoginSuccessNotification"
 
+// MARK: - 微博配图视图常量
+/// 配图视图外侧的间距
+let WBStatusPictureViewOutterMargin = CGFloat.init(12)
+/// 配图视图内部图像视图的间距
+let WBStatusPictureViewInnerMargin = CGFloat.init(3)
+/// 配图视图的宽度
+let WBStatusPictureViewWidth = UIScreen.cz_screenWidth() - 2 * WBStatusPictureViewOutterMargin
+/// 每个 Item 图片默认的宽度
+let WBStatusPictureItemWidth = (WBStatusPictureViewWidth - 2 * WBStatusPictureViewInnerMargin) / 3
 

@@ -36,7 +36,7 @@ extension UIImage {
         // 绘制
         draw(in: rect)
         
-        let ovalPath = path
+        let ovalPath = UIBezierPath(ovalIn: rect)
         ovalPath.lineWidth = 2
         lineColor.setStroke()
         ovalPath.stroke()
@@ -48,5 +48,28 @@ extension UIImage {
         
         return result
         
+    }
+    
+    /// 生成指定大小的不透明图象
+    func cz_image(size: CGSize? = nil, backColor: UIColor = UIColor.white) -> UIImage? {
+        
+        var size = size
+        if size == nil {
+            size = self.size
+        }
+        let rect = CGRect(origin: CGPoint(), size: size!)
+        
+        UIGraphicsBeginImageContextWithOptions(rect.size, true, 0)
+        
+        backColor.setFill()
+        UIRectFill(rect)
+        
+        draw(in: rect)
+        
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        
+        return result
     }
 }
